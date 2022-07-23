@@ -1,0 +1,77 @@
+Steps to install app
+
+Setup sql tables
+
+CREATE TABLE holdings(
+    _id SERIAL PRIMARY KEY,
+    ticker varchar(20) NOT NULL,
+    qty INTEGER,
+    total_val NUMERIC
+);
+
+CREATE TABLE stock_transac(
+    _id SERIAL PRIMARY KEY,
+    trans_type varchar(5) NOT NULL,
+    on_ticker varchar(20) NOT NULL,
+    unit_price NUMERIC,
+    qty INTEGER,
+    profit NUMERIC 
+);
+
+CREATE TABLE accounts(
+    _id SERIAL PRIMARY KEY,
+    total_income NUMERIC DEFAULT 0,
+    balance NUMERIC DEFAULT 0,
+    Total_stck_val NUMERIC DEFAULT 0   
+);
+
+CREATE TABLE acc_transac(
+    _id SERIAL PRIMARY KEY,
+    amount NUMERIC,
+    on_date DATE DEFAULT CURRENT_DATE,
+    at_time TIME DEFAULT CURRENT_TIME
+);
+
+CREATE TABLE acc_holding_transac(
+    _id SERIAL PRIMARY KEY,
+    acc_id INT NOT NULL
+    REFERENCES accounts(_id)
+    ON DELETE CASCADE,
+    holding_id INT
+    REFERENCES holdings(_id)
+    ON DELETE CASCADE,
+    stck_transac_id INT
+    REFERENCES stock_transac(_id)
+    ON DELETE CASCADE,
+    acc_transac_id INT NOT NULL REFERENCES acc_transac(_id)
+    ON DELETE CASCADE    
+);
+
+CREATE TABLE users(
+    _id SERIAL PRIMARY KEY,
+    acc_id INT NOT NULL
+    REFERENCES accounts(_id)
+    ON DELETE CASCADE  
+)
+
+-- CREATE TABLE symbol_name(
+--     symbol varchar(200) PRIMARY KEY,
+--     name TEXT NOT NULL
+-- );
+
+create stocks and name table from this file:
+
+https://docs.google.com/spreadsheets/d/1-3PIP7lcv4N2ATIQwmsy94C_iNaWcuFa/edit?usp=sharing&ouid=114852890489524559073&rtpof=true&sd=true
+
+script:
+import pandas as pd
+import psycopg2 as pg
+df = pd.read_excel('stocks.xlsx')
+df2 = df.iloc[3: , 0:2]
+conn = pg.connect(dbname="stocksim", password="Your db password", user="postgres", host="localhost")
+cur = conn.cursor()
+for i in df.index:
+    cur.execute("INSERT INTO symbol_name(symbol , name) VALUES (%(symbol)s , %(name)s)", {'symbol':df['Yahoo Stock Tickers'][i] , 'name' : df["Unnamed: 1"][i]})
+    conn.commit()
+cur.close()
+conn.close()

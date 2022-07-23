@@ -28,4 +28,4 @@ def queryGet(query, values=()):
         conn.close()
         return result
     except:
-        return Exception("Internal error")
+        raise Exception("Internal error")
