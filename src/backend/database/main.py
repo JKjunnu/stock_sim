@@ -1,8 +1,9 @@
 import psycopg2 as pg
+from psycopg2.extras import RealDictCursor
 import os
 
 
-def querySet(query, values):
+def querySet(query, values = ()):
     try:
         conn = pg.connect(
             dbname="stocksim", password=os.environ["DATABASE_PASSWORD"], user="postgres", host="localhost"
@@ -12,7 +13,8 @@ def querySet(query, values):
         conn.commit()
         cur.close()
         conn.close()
-    except:
+    except Exception as e:
+        print(e)
         raise Exception("Internal error")
 
 
@@ -23,7 +25,11 @@ def queryGet(query, values=()):
         )
         cur = conn.cursor()
         cur.execute(query, values)
-        result = cur.fetchall()
+        cols = [desc[0] for desc in cur.description]
+        data = cur.fetchall()
+        result = []
+        for i in data:
+            result.append(dict(zip(cols , i)))
         cur.close()
         conn.close()
         return result
