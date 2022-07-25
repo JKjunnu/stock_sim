@@ -1,6 +1,6 @@
 import yahoo_fin.stock_info as yf
 import src.backend.database.main as db
-import src.backend.validator as vd
+import src.backend.middleware.validator as vd
 import src.backend.error as err
 
 def search_stocks(substr):  #Takes name of company and return its symbol with name

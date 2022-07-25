@@ -3,3 +3,6 @@ class ValidationError(Exception):
 
 class BalanceError(Exception):
     pass
+
+class HoldingError(Exception):
+    pass

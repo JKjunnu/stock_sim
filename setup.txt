@@ -56,10 +56,12 @@ CREATE TABLE users(
     ON DELETE CASCADE  
 )
 
--- CREATE TABLE symbol_name(
---     symbol varchar(200) PRIMARY KEY,
---     name TEXT NOT NULL
--- );
+ CREATE TABLE symbol_name(
+     symbol varchar(200) PRIMARY KEY,
+     name TEXT NOT NULL
+);
+
+INSERT INTO accounts(balance) VALUES (0);
 
 create stocks and name table from this file:
 

@@ -1,5 +1,5 @@
 import src.backend.database.main as db
-import src.backend.validator as vd
+import src.backend.middleware.validator as vd
 import src.backend.server_endpoints.stock_info as si
 
 
@@ -60,6 +60,7 @@ def buy_stock(ticker , qty , acc_id = 3):
                     values={'ticker' : ticker ,'unit_price' : unit_price , 'qty' : qty}
            )
            
+           return "Stocks brought"
         else:
             #Fresh buy
             db.querySet(
@@ -77,9 +78,46 @@ def buy_stock(ticker , qty , acc_id = 3):
                     total = total,
                     acc_id = acc_id
                     ),
-                    values={'ticker' : ticker ,'unit_price' : unit_price , 'qty' : qty , 'total' : total}
+                    values={'ticker' : ticker ,'unit_price' : unit_price , 'qty' : qty }
             )
-            
+            return 'Stocks brought'
+    except Exception as e:
+        raise e
+
+def sell_stock(ticker , qty , acc_id = 3):
+    try:
+        vd.ticker_exists(ticker)
+        holdings = db.queryGet(f'SELECT * FROM acc_holding_transac INNER JOIN holdings ON acc_holding_transac.holding_id = holdings.holding_id WHERE acc_holding_transac.acc_id = {acc_id} AND acc_holding_transac.holding_id IS NOT NULL ')
+        vd.can_sell(ticker , holdings , qty)
+        curr_price = si.get_live_price(ticker)
+        onHolding = {}
+        for i in holdings:
+            if(ticker == i['ticker']):
+                onHolding = i
+        profit_loss = (curr_price - float(onHolding['unit_price'])) * qty
+        holding_id = onHolding['holding_id']
+
+        print(type(onHolding['qty']) , type(qty))
+
+        db.querySet('''
+            WITH stck_row AS(INSERT INTO stock_transac(trans_type , on_ticker , unit_price , qty , profit) VALUES ('SELL', %(ticker)s , %(curr_price)s , %(qty)s , %(profit)s ) RETURNING stck_transac_id)
+            INSERT INTO acc_holding_transac(stck_transac_id , holding_id , acc_id)
+            SELECT stck_transac_id , {holding_id} , {acc_id} 
+            FROM stck_row;
+            UPDATE holdings SET qty = {remaining_qty} WHERE holding_id = {holding_id};
+            UPDATE accounts SET balance = balance + {total_transac_val} WHERE acc_id = {acc_id};
+
+        '''.format(
+            holding_id = holding_id,
+            acc_id = acc_id,
+            remaining_qty = float(onHolding['qty']) - qty,
+            total_transac_val = curr_price * qty
+        ),
+        values = {'ticker': ticker , 'curr_price' : curr_price , 'qty' : qty , 'profit' : profit_loss }
+        ) 
+
+        return "Stocks sold"
+
     except Exception as e:
         raise e
 
