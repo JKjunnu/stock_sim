@@ -18,6 +18,8 @@ CREATE TABLE stock_transac(
     unit_price NUMERIC,
     qty INTEGER,
     profit NUMERIC 
+    on_date DATE DEFAULT CURRENT_DATE,
+    at_time TIME WITH TIME ZONE DEFAULT CURRENT_TIME
 );
 
 CREATE TABLE accounts(
