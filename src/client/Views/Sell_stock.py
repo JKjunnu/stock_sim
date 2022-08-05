@@ -6,5 +6,7 @@ class Sell_stock(tk.Frame):
         self.controller = controller
         tk.Frame.__init__(self , parent)
         self.bind('<<ShowFrame>>' , self.display_stock_data)
+        label = ttk.Label(self , text="IDK")
+        label.grid(row = 0 , column = 0)
     def display_stock_data(self , event):
         print(self.controller.app_data['Selected_ticker_sell'].get())

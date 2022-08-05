@@ -1,10 +1,10 @@
 import tkinter as tk
 import src.client.Views.Home as Home
-import src.client.Views.Search_Result as Search_Result
-import src.client.Views.Stock_dispg as Stock_dispg
-import src.client.Views.Stock_buypg as Stock_buypg
-import src.client.Views.Holdings as Holdings
-import src.client.Views.Sell_stock as Sell_Stock
+# import src.client.Views.Search_Result as Search_Result
+# import src.client.Views.Stock_dispg as Stock_dispg
+# import src.client.Views.Stock_buypg as Stock_buypg
+# import src.client.Views.Holdings as Holdings
+# import src.client.Views.Sell_stock as Sell_Stock
 
 
 class Main_window(tk.Tk):
@@ -19,6 +19,7 @@ class Main_window(tk.Tk):
         container.grid(column=0, row=0, sticky="nsew")
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
+        self.container = container
         self.app_data = {
             "Search_str": tk.StringVar() ,
             "Selected_ticker_buy" : tk.StringVar(),
@@ -27,16 +28,14 @@ class Main_window(tk.Tk):
             }
         self.frames = {}
         self.columnconfigure(0, weight=1)
-        for F in (Home.HomeView, Search_Result.SearchResult , Stock_dispg.Stock_dispg , Stock_buypg.Stock_buypg , Holdings.Holdings , Sell_Stock.Sell_stock):
-            frame = F(container, self)
-            self.frames[F] = frame
-            frame.grid(row=0, column=0, sticky='nsew')
         self.show_page(Home.HomeView)
 
     def show_page(self, cont):
-        frame = self.frames[cont]
+        frame = cont(self.container , controller = self)
+        frame.grid(row=0, column=0, sticky='nsew')
         frame.tkraise()
         frame.event_generate("<<ShowFrame>>")
+       
 
 
 def launch_client():
