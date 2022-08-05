@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 import src.client.Views.Home as Home
+import src.client.Views.Stock_dispg as Stock_dispg
 import src.backend.server_endpoints.account_info as ai
 import src.backend.server_endpoints.stock_info as si
 import src.backend.server_endpoints.transactions as tr
@@ -45,12 +46,15 @@ class Stock_buypg(tk.Frame):
 
             confirm_button = ttk.Button(self , text="Confirm" , command= self.handle_confirm_buy)
             confirm_button.grid(row=5 , columnspan= 5 , pady=20)
+
+            cancel_button = ttk.Button(self , text="Cancel" , command= lambda:self.controller.show_page(Stock_dispg.Stock_dispg))
+            cancel_button.grid(row=6 , columnspan= 5 , pady=20)
             
             res_label = ttk.Label(self , text='')
-            res_label.grid(row=6 , columnspan=5 , pady=20)
+            res_label.grid(row=7 , columnspan=5 , pady=20)
             home_return_button = ttk.Button(self, text="Home",
                                         command=lambda: self.controller.show_page(Home.HomeView))
-            home_return_button.grid(row=7, columnspan=5, pady=20, sticky=tk.S)
+            home_return_button.grid(row=8, columnspan=5, pady=20, sticky=tk.S)
             #Setting widgets to self
             self.res_label = res_label
             self.ticker_name_label = ticker_name_label
@@ -62,7 +66,7 @@ class Stock_buypg(tk.Frame):
 
     def display_stock_info(self, event):  
         try:
-            selected_ticker = self.controller.app_data['Selected_ticker'].get()
+            selected_ticker = self.controller.app_data['Selected_ticker_buy'].get()
             live_price = np.round(float(si.get_live_price(selected_ticker)) , 2)
             self.ticker_name_label['text'] = selected_ticker
             self.stock_price_label['text'] = str(live_price)
@@ -97,7 +101,7 @@ class Stock_buypg(tk.Frame):
 
             if(not qty.isdigit()):
                 raise Exception("qty must be a number")
-            response = tr.buy_stock(self.controller.app_data['Selected_ticker'].get() , int(qty))
+            response = tr.buy_stock(self.controller.app_data['Selected_ticker_buy'].get() , int(qty))
             res_label = ttk.Label(self , text=response)
             res_label.grid(row=6 , columnspan=5 , pady=20)
             self.confim_button['state'] = "disabled"

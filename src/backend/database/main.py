@@ -1,5 +1,4 @@
 import psycopg2 as pg
-from psycopg2.extras import RealDictCursor
 import os
 
 

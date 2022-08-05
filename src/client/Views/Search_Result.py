@@ -21,12 +21,9 @@ class SearchResult(tk.Frame):
         label1 = ttk.Label(
             self, text='Select a stock to view more', font=("TkDefaultFont", 15))
         label1.grid(row=2, column=0, padx=40, pady=10, sticky=tk.W)
-        proceed_button = ttk.Button(
-            self, text="Proceed", command=lambda: print("Hi"))
-        proceed_button.grid(row=4, column=0, sticky=tk.E)
         home_return_button = ttk.Button(self, text="Home",
                                         command=lambda: self.controller.show_page(Home.HomeView))
-        home_return_button.grid(row=5, column=0, pady=200, sticky=tk.S)
+        home_return_button.grid(row=4, column=0, pady=20, sticky=tk.S)
 
     def get_search_data(self, event):
         try:
@@ -43,7 +40,7 @@ class SearchResult(tk.Frame):
                     modified_data.append(sub_modified_list)
 
                 search_res = ttk.Treeview(self, columns=(
-                    'symbol', 'name'), show='headings')
+                    'symbol', 'name'), show='headings' , height=15)
                 search_res.column('symbol', anchor=CENTER, width=80)
                 search_res.column('name', anchor=CENTER, width=400)
 
@@ -61,5 +58,5 @@ class SearchResult(tk.Frame):
     def handle_stock_select(self , event):
         curItem = self.search_res.focus()
         selected_ticker = self.search_res.item(curItem)['values'][0]
-        self.controller.app_data['Selected_ticker'].set(selected_ticker)
+        self.controller.app_data['Selected_ticker_info'].set(selected_ticker)
         self.controller.show_page(Stock_dispg.Stock_dispg)

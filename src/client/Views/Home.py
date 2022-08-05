@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 import src.client.Views.Search_Result as Search_Result
+import src.client.Views.Holdings as Holdings
 import src.backend.server_endpoints.account_info as ai
 import numpy as np
 
@@ -36,7 +37,7 @@ class HomeView(tk.Frame):
                 self, text='More', command=lambda: print("Hi"))
             more_button.grid(row=6, column=0, padx=15, sticky=tk.W)
             holdings_button = ttk.Button(
-                self, text='Holdings', command=lambda: print('Hi'))
+                self, text='Holdings', command=lambda: self.controller.show_page(Holdings.Holdings))
             holdings_button.grid(row=6, column=0, sticky=tk.E)
         except Exception as e:
             print(e)

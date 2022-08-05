@@ -3,6 +3,8 @@ import src.client.Views.Home as Home
 import src.client.Views.Search_Result as Search_Result
 import src.client.Views.Stock_dispg as Stock_dispg
 import src.client.Views.Stock_buypg as Stock_buypg
+import src.client.Views.Holdings as Holdings
+import src.client.Views.Sell_stock as Sell_Stock
 
 
 class Main_window(tk.Tk):
@@ -17,10 +19,15 @@ class Main_window(tk.Tk):
         container.grid(column=0, row=0, sticky="nsew")
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
-        self.app_data = {"Search_str": tk.StringVar() , "Selected_ticker" : tk.StringVar()}
+        self.app_data = {
+            "Search_str": tk.StringVar() ,
+            "Selected_ticker_buy" : tk.StringVar(),
+            "Selected_ticker_sell" : tk.StringVar(),
+            "Selected_ticker_info" : tk.StringVar()
+            }
         self.frames = {}
         self.columnconfigure(0, weight=1)
-        for F in (Home.HomeView, Search_Result.SearchResult , Stock_dispg.Stock_dispg , Stock_buypg.Stock_buypg):
+        for F in (Home.HomeView, Search_Result.SearchResult , Stock_dispg.Stock_dispg , Stock_buypg.Stock_buypg , Holdings.Holdings , Sell_Stock.Sell_stock):
             frame = F(container, self)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky='nsew')

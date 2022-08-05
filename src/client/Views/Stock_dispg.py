@@ -69,7 +69,7 @@ class Stock_dispg(tk.Frame):
             #From buy button
 
             stock_buy_button = ttk.Button(
-                self, text='BUY', command=lambda: self.controller.show_page(Stock_buypg.Stock_buypg))
+                self, text='BUY', command= self.handle_buy)
             stock_buy_button.grid(row=6, columnspan=7,
                                   sticky=tk.W+tk.E, pady=20, padx=300)
             stock_balance_label = ttk.Label(
@@ -86,7 +86,7 @@ class Stock_dispg(tk.Frame):
     
     def display_stock_info(self, event):
         try:
-            selected_ticker = self.controller.app_data['Selected_ticker'].get()
+            selected_ticker = self.controller.app_data['Selected_ticker_info'].get()
             live_price = si.get_live_price(selected_ticker)
             live_price = np.round(float(live_price) , 2)
             self.ticker_name_label['text'] = selected_ticker
@@ -96,9 +96,12 @@ class Stock_dispg(tk.Frame):
       
     def disp_price_graph(self, duration):
         try:
-            selected_ticker = self.controller.app_data['Selected_ticker'].get()
+            selected_ticker = self.controller.app_data['Selected_ticker_info'].get()
             graph_data = si.get_historic_data(selected_ticker, duration)
             plt.plot(graph_data)
             plt.show()
         except Exception as e:
-            print(e)   
+            print(e)
+    def handle_buy(self):
+        self.controller.app_data['Selected_ticker_buy'].set(self.controller.app_data['Selected_ticker_info'].get())
+        self.controller.show_page(Stock_buypg.Stock_buypg)
