@@ -17,7 +17,7 @@ CREATE TABLE stock_transac(
     on_ticker varchar(20) NOT NULL,
     unit_price NUMERIC,
     qty INTEGER,
-    profit NUMERIC 
+    profit NUMERIC, 
     on_date DATE DEFAULT CURRENT_DATE,
     at_time TIME WITH TIME ZONE DEFAULT CURRENT_TIME
 );
@@ -39,24 +39,17 @@ CREATE TABLE acc_transac(
 CREATE TABLE acc_holding_transac(
     _id SERIAL PRIMARY KEY,
     acc_id INT NOT NULL
-    REFERENCES accounts(_id)
+    REFERENCES accounts(acc_id)
     ON DELETE CASCADE,
     holding_id INT
-    REFERENCES holdings(_id)
+    REFERENCES holdings(holding_id)
     ON DELETE CASCADE,
     stck_transac_id INT
-    REFERENCES stock_transac(_id)
+    REFERENCES stock_transac(stck_transac_id)
     ON DELETE CASCADE,
-    acc_transac_id INT  REFERENCES acc_transac(_id)
+    acc_transac_id INT  REFERENCES acc_transac(acc_transac_id)
     ON DELETE CASCADE    
 );
-
-CREATE TABLE users(
-    _id SERIAL PRIMARY KEY,
-    acc_id INT NOT NULL
-    REFERENCES accounts(_id)
-    ON DELETE CASCADE  
-)
 
  CREATE TABLE symbol_name(
      symbol varchar(200) PRIMARY KEY,

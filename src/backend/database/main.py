@@ -33,5 +33,6 @@ def queryGet(query, values=()):
         cur.close()
         conn.close()
         return result
-    except:
+    except Exception  as e:
+        print(e)
         raise Exception("Internal error")
