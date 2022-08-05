@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
-import src.backend.server_endpoints.stock_info as si
+import src.client.main as client
+
 
 load_dotenv()
-
-print(si.search_stocks('Apple'))
+client.launch_client()
 
