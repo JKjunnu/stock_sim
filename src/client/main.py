@@ -20,7 +20,7 @@ class Main_window(tk.Tk):
         self.app_data = {"Search_str": tk.StringVar() , "Selected_ticker" : tk.StringVar()}
         self.frames = {}
         self.columnconfigure(0, weight=1)
-        for F in (Home.HomeView, Search_Result.SearchResult , Stock_dispg.Stock_dispg):
+        for F in (Home.HomeView, Search_Result.SearchResult , Stock_dispg.Stock_dispg , Stock_buypg.Stock_buypg):
             frame = F(container, self)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky='nsew')
