@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import src.client.Views.Search_Result as Search_Result
 import src.client.Views.Holdings as Holdings
+import src.client.Views.Account as Account
 import src.backend.server_endpoints.account_info as ai
 import numpy as np
 
@@ -34,7 +35,7 @@ class HomeView(tk.Frame):
                 self, text=f"Account Balance : {acc_bal}", font=("TkDefaultFont", 10))
             acc_balance_label.grid(row=5, column=0, padx=300)
             more_button = ttk.Button(
-                self, text='More', command=lambda: print("Hi"))
+                self, text='My account', command=lambda: self.controller.show_page(Account.Account))
             more_button.grid(row=6, column=0, padx=15, sticky=tk.W)
             holdings_button = ttk.Button(
                 self, text='Holdings', command=lambda: self.controller.show_page(Holdings.Holdings))

@@ -60,6 +60,7 @@ class Holdings(tk.Frame):
                 unit_price = np.round(float(i['unit_price']) , 2)
                 qty = i['qty']
                 total = unit_price * qty
+                total = np.round(total , 2)
                 sub_list = [i['ticker'] , i['name'] , str(unit_price) , str(qty) , str(total)]
                 modified_holdings.append(sub_list)
 

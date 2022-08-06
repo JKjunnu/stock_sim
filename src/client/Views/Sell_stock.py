@@ -22,10 +22,10 @@ class Sell_stock(tk.Frame):
             title_label.grid(row = 0 , columnspan = 5 , padx=300 , pady=10 , sticky=tk.W+tk.E)
             #Live price
             live_label = ttk.Label(self , text="Live price" , font=('TKDefaultFont' , 12))
-            live_label.grid(row=2 , column=2 , padx = 0 ,pady=20)
+            live_label.grid(row=2 , column=2 , padx = 30 ,pady=20)
 
             live_price = ttk.Label(self , text=live_price , font=('TKDefaultFont' , 12))
-            live_price.grid(row=2 , column=3 , padx=0, pady=20)
+            live_price.grid(row=2 , column=3 , padx=30, pady=20)
 
             qty_label = ttk.Label(self, text='Quantity', font=('TKDefaultFont',12))
             qty_label.grid(row=3, column=2, pady=10)
@@ -90,13 +90,14 @@ class Sell_stock(tk.Frame):
             curr_hold = self.curr_hold
             if(len(qty) ==0):
                 qty = '0'
-            if(int(qty) > curr_hold['qty']):
-                raise Exception("You cant sell more than you own")
             if('.' in qty):
                 raise Exception("Qty must be a whole number")
 
             if(not qty.isdigit()):
                 raise Exception("qty must be a number")
+            if(int(qty) > curr_hold['qty']):
+                raise Exception("You cant sell more than you own")
+           
             
             
             total = float(self.live_price['text']) * int(qty)
@@ -118,14 +119,15 @@ class Sell_stock(tk.Frame):
             curr_hold = self.curr_hold
             if(len(qty) ==0):
                 qty = '0'
-            if(int(qty) > curr_hold['qty']):
-                raise Exception("You cant sell more than you own")
             if('.' in qty):
                 raise Exception("Qty must be a whole number")
 
             if(not qty.isdigit()):
                 raise Exception("qty must be a number")
 
+            if(int(qty) > curr_hold['qty']):
+                raise Exception("You cant sell more than you own")
+            
             res = tr.sell_stock(self.curr_hold['ticker'] , int(self.qty_entered.get()))
             self.res_label['text'] = res
         except Exception as e:
