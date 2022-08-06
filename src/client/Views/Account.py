@@ -58,7 +58,7 @@ class Account(tk.Frame):
             res_label = ttk.Label(self , text='')
             res_label.grid(row=7 , columnspan=5 , pady=10)
 
-            transac_button = ttk.Button(self , text="View tranactions" , command=lambda:self.controller.show_page(Transactions.Transactions))
+            transac_button = ttk.Button(self , text="View transactions" , command=lambda:self.controller.show_page(Transactions.Transactions))
             transac_button.grid(row=8 , column=0 , pady=10)
 
             Home_button = ttk.Button(self , text="Home" , command=lambda:self.controller.show_page(Home.HomeView))
