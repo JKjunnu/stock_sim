@@ -24,23 +24,23 @@ class Stock_buypg(tk.Frame):
                                    pady=10, sticky=tk.E+tk.W)
             
             acc_bal_label = ttk.Label(
-                self, text="Balance : "+str(acc_bal), font=(15))
+                self, text="Balance : "+str(acc_bal), font=('TKDefaultFont',15))
             acc_bal_label.grid(row=1, column=1, padx=0, sticky=tk.W)
-            unit_price_label = ttk.Label(self, text="Unit Price : ", font=(15))
+            unit_price_label = ttk.Label(self, text="Unit Price : ", font=('TKDefaultFont' ,15))
             unit_price_label.grid(row=2, column=2, padx=0, pady=30)
-            stock_price_label = ttk.Label(self, text='Price', font=(15))
+            stock_price_label = ttk.Label(self, text='Price', font=('TKDefaultFont',15))
             stock_price_label.grid(row=2, column=3, pady=30)
             
-            qty_label = ttk.Label(self, text='Qty', font=(15))
+            qty_label = ttk.Label(self, text='Qty', font=('TKDefaultFont',15))
             qty_label.grid(row=3, column=2, pady=10)
             self.qty_entered = tk.StringVar()
-            qty_entry = ttk.Entry(self, font=(15) , textvariable=self.qty_entered)
+            qty_entry = ttk.Entry(self, font=('TKDefaultFont',15) , textvariable=self.qty_entered)
             qty_entry.grid(row=3, column=3, pady=10, sticky=tk.W)
             qty_entry.bind('<KeyRelease>' , self.calculate_total)
 
-            total_label = ttk.Label(self, text="Total Price : ", font=(15))
+            total_label = ttk.Label(self, text="Total Price : ", font=('TKDefaultFont',15))
             total_label.grid(row=4, column=2, padx=0, pady=30)
-            total_price_label = ttk.Label(self, text='0', font=(15))
+            total_price_label = ttk.Label(self, text='0', font=('TKDefaultFont',15))
             total_price_label.grid(row=4, column=3, pady=30)
             
 

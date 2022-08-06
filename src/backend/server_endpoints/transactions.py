@@ -97,8 +97,6 @@ def sell_stock(ticker , qty , acc_id = 3):
         profit_loss = (curr_price - float(onHolding['unit_price'])) * qty
         holding_id = onHolding['holding_id']
 
-        print(type(onHolding['qty']) , type(qty))
-
         db.querySet('''
             WITH stck_row AS(INSERT INTO stock_transac(trans_type , on_ticker , unit_price , qty , profit) VALUES ('SELL', %(ticker)s , %(curr_price)s , %(qty)s , %(profit)s ) RETURNING stck_transac_id)
             INSERT INTO acc_holding_transac(stck_transac_id , holding_id , acc_id)

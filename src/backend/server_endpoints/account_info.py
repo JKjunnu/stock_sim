@@ -17,6 +17,20 @@ def remove_holdings_duplicated(holdings):
     return output
 
 
+def get_one_holding(ticker , acc_id = 3):
+    try:
+        holdings = db.queryGet(f'SELECT * FROM acc_holding_transac INNER JOIN holdings ON acc_holding_transac.holding_id = holdings.holding_id WHERE acc_id = {acc_id};')
+        holdings = remove_holdings_duplicated(holdings)
+        for i in holdings:
+            i.pop('stck_transac_id')
+            i.pop('acc_transac_id')
+        for i in holdings:
+            if(i['ticker'] == ticker):
+                return i
+        return None
+    
+    except Exception as e:
+        raise e
 
 def get_all_holdings(acc_id = 3):
     try:
